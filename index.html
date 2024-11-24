@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dynamic Tabs Example</title>
+    <link rel="stylesheet"
+          href=
+                  "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-success bg-success">
+        <a class="navbar-brand text-light" href="#">
+            Dynamic tabs in Bootstrap
+        </a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <button id="addTabBtn"
+                            class="btn btn-primary mt-3">
+                        Add Tab
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs bg-light" id="myTabs">
+        <li class="nav-item">
+            <a class="nav-link active text-dark"
+               data-toggle="tab"
+               href="#home">
+                Home
+            </a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content" id="tabContent">
+        <div class="tab-pane container active
+                           border border-1 rounded
+                           p-4 mt-4 shadow text-success" id="home">
+            <p>
+                GeeksforGeeks is a leading
+                platform that provides
+                computer science resources
+                and coding challenges for
+                programmers and technology
+                enthusiasts, along with
+                interview and exam
+                preparations for upcoming
+                aspirants. With a strong
+                emphasis on enhancing
+                coding skills and
+                knowledge, it has become a
+                trusted destination for
+                over 12 million plus
+                registered users
+                worldwide. The platform
+                offers a vast collection
+                of tutorials, practice
+                problems, interview
+                tutorials, articles, and
+                courses, covering various
+                domains of computer
+                science.
+            </p>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap JS and plain JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js">
+</script>
+<script>
+    let addTabBtn =
+        document.getElementById(
+            "addTabBtn"
+        );
+    let myTabs =
+        document.getElementById("myTabs");
+    let tabContent =
+        document.getElementById(
+            "tabContent"
+        );
+
+    // Function to show tab content
+    function showTabContent(tabLink) {
+        document
+            .querySelectorAll(".tab-pane")
+            .forEach((tabPane) => {
+                tabPane.classList.remove(
+                    "active"
+                );
+            });
+        document
+            .getElementById(
+                tabLink
+                    .getAttribute("href")
+                    .substr(1)
+            )
+            .classList.add("active");
+    }
+
+    // Show home tab content initially
+    showTabContent(
+        document.querySelector(
+            ".nav-link.active"
+        )
+    );
+
+    addTabBtn.addEventListener(
+        "click",
+        function () {
+            let tabName = prompt(
+                "Enter tab name:"
+            );
+            let tabContentValue = prompt(
+                "Enter tab content:"
+            );
+
+            if (
+                tabName &&
+                tabContentValue
+            ) {
+                // Create tab link
+                let newTabLink =
+                    document.createElement(
+                        "a"
+                    );
+                newTabLink.classList.add(
+                    "nav-link",
+                    "text-dark"
+                );
+                newTabLink.setAttribute(
+                    "data-toggle",
+                    "tab"
+                );
+                newTabLink.setAttribute(
+                    "href",
+                    "#" +
+                    tabName
+                        .replace(
+                            /\s+/g,
+                            "-"
+                        )
+                        .toLowerCase()
+                );
+                newTabLink.textContent =
+                    tabName;
+
+                // Create tab list item
+                let newTabListItem =
+                    document.createElement(
+                        "li"
+                    );
+                newTabListItem.classList.add(
+                    "nav-item"
+                );
+                newTabListItem.appendChild(
+                    newTabLink
+                );
+                myTabs.appendChild(
+                    newTabListItem
+                );
+
+                // Create tab pane
+                let newTabPane =
+                    document.createElement(
+                        "div"
+                    );
+                newTabPane.classList.add(
+                    "tab-pane",
+                    "container",
+                    "border",
+                    "border-1",
+                    "rounded",
+                    "p-4",
+                    "mt-4",
+                    "shadow",
+                    "text-success"
+                );
+                newTabPane.setAttribute(
+                    "id",
+                    tabName
+                        .replace(
+                            /\s+/g,
+                            "-"
+                        )
+                        .toLowerCase()
+                );
+                newTabPane.innerHTML =
+                    tabContentValue;
+                tabContent.appendChild(
+                    newTabPane
+                );
+
+                // Add event listener to the newly created tab link
+                newTabLink.addEventListener(
+                    "click",
+                    function (event) {
+                        event.preventDefault();
+                        showTabContent(
+                            newTabLink
+                        );
+                    }
+                );
+            }
+        }
+    );
+</script>
+</body>
+
+</html>
